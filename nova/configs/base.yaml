@@ -1,0 +1,129 @@
+# Nova Base Configuration
+# All values can be overridden via CLI or Python API
+
+# =============================================================================
+# MODEL CONFIGURATION
+# =============================================================================
+models:
+  base_model: "stabilityai/stable-diffusion-xl-base-1.0"
+  inpainting_model: "diffusers/stable-diffusion-xl-1.0-inpainting-0.1"
+  vae_model: "madebyollin/sdxl-vae-fp16-fix"
+
+  controlnet_openpose: "thibaud/controlnet-sdxl-openpose"
+  controlnet_depth: "diffusers/controlnet-depth-sdxl-1.0"
+  controlnet_canny: "diffusers/controlnet-canny-sdxl-1.0"
+
+  ip_adapter_plus: "h94/IP-Adapter"
+  ip_adapter_face: "h94/IP-Adapter/face_id"
+
+  device: "cuda"
+  dtype: "float16"
+  use_xformers: true
+  enable_cpu_offload: false
+  enable_sequential_cpu_offload: false
+
+  vae_tiling: true
+  vae_tile_size: 512
+
+  lora_dir: "./models/loras"
+  default_lora_scale: 0.8
+
+# =============================================================================
+# MOTION PLANNING
+# =============================================================================
+motion:
+  interpolation: "ease_in_out"
+  custom_curve: null
+  joint_curves: {}
+
+  audio_sync_enabled: true
+  beat_snap_enabled: true
+  beat_snap_tolerance_frames: 1
+  phoneme_to_viseme_enabled: true
+  prosody_to_intensity_enabled: true
+
+  max_joint_delta_per_frame: 0.15
+  preserve_face: true
+  preserve_hands: false
+
+# =============================================================================
+# GENERATION PARAMETERS
+# =============================================================================
+generation:
+  width: 1024
+  height: 1024
+
+  sampler: "euler_a"
+  steps: 25
+  cfg_scale: 5.5
+  denoising_strength: 0.7
+
+  controlnet_scale: 0.8
+  controlnet_depth_scale: 0.6
+  controlnet_canny_scale: 0.4
+  ip_adapter_scale: 0.6
+  ip_adapter_face_scale: 0.4
+
+  use_prev_latent_init: true
+  prev_latent_weight: 0.8
+
+  seed: null
+  seed_per_frame: false
+
+  draft_mode: false
+  draft_steps: 12
+  draft_cfg_scale: 4.5
+
+  warp_enabled: true
+  warp_method: "delaunay"
+  warp_strength: 1.0
+
+  refine_enabled: true
+  refine_mask_dilation: 8
+  refine_mask_blur: 4
+
+# =============================================================================
+# VALIDATION THRESHOLDS
+# =============================================================================
+validation:
+  clip_similarity_min: 0.85
+  dino_similarity_min: 0.80
+  arcface_similarity_min: 0.75
+
+  ssim_min: 0.90
+  lpips_max: 0.10
+  flow_consistency_min: 0.90
+
+  pose_keypoint_max_dist: 0.05
+  artifact_score_max: 0.3
+
+  lip_sync_min: 0.70
+  beat_sync_max_offset_frames: 1
+
+  max_retries: 3
+  retry_denoising_increment: 0.05
+  retry_ip_adapter_increment: 0.1
+
+# =============================================================================
+# EXPORT SETTINGS
+# =============================================================================
+export:
+  formats: ["png", "mp4"]
+  video_codec: "h264"
+  video_crf: 18
+  video_preset: "slow"
+  video_pixel_format: "yuv420p"
+
+  gif_fps: 12
+  gif_colors: 256
+
+  include_metadata_json: true
+  metadata_per_frame: true
+
+# =============================================================================
+# RUNTIME DEFAULTS
+# =============================================================================
+runtime:
+  device: "cuda"
+  verbose: true
+  log_level: "INFO"

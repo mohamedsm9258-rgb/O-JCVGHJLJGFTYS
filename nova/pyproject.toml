@@ -1,0 +1,125 @@
+[project]
+name = "nova"
+version = "0.1.0"
+description = "AI-Assisted 2D Anime Animation System - Progressive frame-by-frame construction"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    # Core
+    "torch>=2.3.0",
+    "torchvision>=0.18.0",
+    "torchaudio>=2.3.0",
+    "accelerate>=0.30.0",
+    "safetensors>=0.4.0",
+
+    # Diffusion pipeline
+    "diffusers>=0.29.0",
+    "transformers>=4.40.0",
+    "huggingface-hub>=0.23.0",
+
+    # ControlNet & IP-Adapter
+    "controlnet-aux>=0.0.7",
+
+    # Computer Vision
+    "opencv-python>=4.9.0",
+    "mediapipe>=0.10.14",
+    "depth-anything-v2>=0.0.1",
+
+    # Optical flow
+    "raft-pytorch>=0.1.0",
+
+    # Audio
+    "librosa>=0.10.2",
+    "madmom>=0.16.1",
+    "torchcrepe>=0.0.18",
+    "whisperx>=3.1.1",
+
+    # Image processing
+    "pillow>=10.2.0",
+    "imageio>=2.34.0",
+    "imageio-ffmpeg>=0.4.9",
+    "scikit-image>=0.22.0",
+    "lpips>=0.1.4",
+
+    # 3D/Geometry
+    "scipy>=1.12.0",
+    "numpy>=1.26.0",
+    "einops>=0.7.0",
+
+    # Config & CLI
+    "pydantic>=2.7.0",
+    "pydantic-settings>=2.3.0",
+    "pyyaml>=6.0.1",
+    "typer>=0.12.0",
+    "rich>=13.7.0",
+
+    # Web/API
+    "fastapi>=0.110.0",
+    "uvicorn>=0.29.0",
+    "pydantic-core>=2.18.0",
+
+    # Utilities
+    "tqdm>=4.66.0",
+    "loguru>=0.7.2",
+    "python-dotenv>=1.0.1",
+    "requests>=2.31.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.1.0",
+    "pytest-asyncio>=0.23.0",
+    "pytest-cov>=5.0.0",
+    "ruff>=0.4.0",
+    "mypy>=1.9.0",
+    "pre-commit>=3.6.0",
+    "ipykernel>=6.29.0",
+    "jupyter>=1.0.0",
+    "matplotlib>=3.8.0",
+]
+
+colab = [
+    "google-colab>=1.0.0",
+    "ipywidgets>=8.1.0",
+]
+
+cloud = [
+    "google-cloud-storage>=2.16.0",
+    "google-cloud-aiplatform>=1.52.0",
+    "vertexai>=1.52.0",
+]
+
+[build-system]
+requires = ["setuptools>=69.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+include = ["nova*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_functions = ["test_*"]
+addopts = "-v --tb=short"
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+select = ["E", "F", "I", "N", "W", "UP", "B", "C4", "SIM", "TCH", "TID", "TRY", "RUF", "ARG", "PTH", "ERA", "PD", "PL", "RET", "FLY", "NPY"]
+ignore = ["S101", "TCH001", "TCH002", "TCH003", "ARG001", "ARG002", "PTH118", "ERA001", "NPY002", "PLW0603", "NPY201", "NPY203", "NPY001", "NPY004"]
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+
+[tool.mypy]
+python_version = "3.10"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = false
+ignore_missing_imports = true
+namespace_packages = true
+
+[tool.typer]
+rich = true
